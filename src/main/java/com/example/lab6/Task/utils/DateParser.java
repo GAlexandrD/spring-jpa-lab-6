@@ -1,14 +1,13 @@
 package com.example.lab6.Task.utils;
 
 import com.example.lab6.Task.errors.DateParseException;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@Component
 public class DateParser {
     public Date parseDateStr(String dateStr){
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
