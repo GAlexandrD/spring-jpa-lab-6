@@ -52,6 +52,10 @@ public class TaskService {
     }
 
     public Task createTask(CreateTaskDto task) {
+        Optional<Task> found = taskRepository.findByName(task.getTaskName());
+        if (found.isPresent()) {
+            throw new TaskNameTaken(task.getTaskName());
+        }
         Date deadline = dateParser.parseDateStr(task.getDeadline());
         Task newTask = new Task(task.getTaskName(), deadline, task.getPriority(), false);
         return taskRepository.save(newTask);
@@ -64,7 +68,13 @@ public class TaskService {
         }
         Task task = found.get();
         if (dto.getDone() != null) task.setDone(dto.getDone());
-        if (dto.getTaskName() != null) task.setName(dto.getTaskName());
+        if (dto.getTaskName() != null){
+            Optional<Task> taskWithUpdateName = taskRepository.findByName(dto.getTaskName());
+            if (taskWithUpdateName.isPresent()) {
+                throw new TaskNameTaken(dto.getTaskName());
+            }
+            task.setName(dto.getTaskName());
+        }
         if (dto.getPriority() != null) task.setPriority(dto.getPriority());
         if (dto.getDeadline() != null) task.setDeadline(dateParser.parseDateStr(dto.getDeadline()));
         return taskRepository.save(task);

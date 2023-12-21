@@ -1,6 +1,7 @@
 package com.example.lab6.Category;
 
 import com.example.lab6.Category.dto.CreateCategoryDto;
+import com.example.lab6.Category.errors.CategoryNameTakenException;
 import com.example.lab6.Category.errors.CategoryNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -71,5 +72,11 @@ public class CategoryController {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     ErrorResponse handleNFException(Exception ex) {
         return ErrorResponse.create(ex, HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler({CategoryNameTakenException.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleBRException(Exception ex) {
+        return ErrorResponse.create(ex, HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 }

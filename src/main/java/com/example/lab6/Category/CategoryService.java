@@ -1,5 +1,6 @@
 package com.example.lab6.Category;
 
+import com.example.lab6.Category.errors.CategoryNameTakenException;
 import com.example.lab6.Category.errors.CategoryNotFoundException;
 import com.example.lab6.Task.utils.DateParser;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,8 @@ public class CategoryService {
   }
 
   Category createCategory(String name) {
+    Optional<Category> found = categoryRepository.findByName(name);
+    if(found.isPresent()) throw new CategoryNameTakenException(name);
     Category newCategory = new Category(name);
     return categoryRepository.save(newCategory);
   }
