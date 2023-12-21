@@ -2,6 +2,7 @@ package com.example.lab6.Task;
 
 import com.example.lab6.Category.errors.CategoryNotFoundException;
 import com.example.lab6.Task.dto.CreateTaskDto;
+import com.example.lab6.Task.dto.UpdateTaskDto;
 import com.example.lab6.Task.errors.DateParseException;
 import com.example.lab6.Task.errors.TaskNameTaken;
 import com.example.lab6.Task.errors.TaskNotFoundException;
@@ -87,12 +88,30 @@ public class TaskController {
     return taskService.createMany(tasks);
   }
 
+  @Operation(summary = "update task", description = "update task information")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Updated successfully", content = { @Content }) })
+  @PutMapping(path = "{taskId}")
+  public Task updateTask(
+      @PathVariable("taskId") Long taskId,
+      @RequestBody UpdateTaskDto task) {
+    return taskService.updateTask(taskId, task);
+  }
+
   @Operation(summary = "delete task", description = "delete task by Id")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "Deleted successfully", content = { @Content }) })
   @DeleteMapping(path = "{taskId}")
   public void deleteTask(@PathVariable("taskId") Long taskId) {
     taskService.deleteTask(taskId);
+  }
+
+  @Operation(summary = "add task to category", description = "add task to existing category or create new")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Task added to category", content = { @Content }) })
+  @PutMapping("/{taskId}/categories/{categoryName}")
+  public void assignCategoryToTask(@PathVariable String categoryName, @PathVariable Long taskId) {
+    taskService.assignCategoryToTask(taskId, categoryName);
   }
 
   @ExceptionHandler({ TaskNotFoundException.class })
