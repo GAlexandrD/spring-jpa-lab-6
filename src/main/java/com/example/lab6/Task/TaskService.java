@@ -7,7 +7,6 @@ import com.example.lab6.Task.dto.UpdateTaskDto;
 import com.example.lab6.Task.errors.TaskNameTaken;
 import com.example.lab6.Task.errors.TaskNotFoundException;
 import com.example.lab6.Task.utils.DateParser;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -26,7 +25,6 @@ public class TaskService {
     private final CategoryRepository categoryRepository;
     private final DateParser dateParser;
 
-    @Autowired
     public TaskService(TaskRepository taskRepository, CategoryRepository categoryRepository, DateParser dateParser) {
         this.taskRepository = taskRepository;
         this.categoryRepository = categoryRepository;

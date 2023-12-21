@@ -1,10 +1,8 @@
 package com.example.lab6.Category;
 
 import com.example.lab6.Task.Task;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
