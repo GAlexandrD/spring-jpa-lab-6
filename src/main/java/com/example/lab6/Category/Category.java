@@ -40,6 +40,13 @@ public class Category {
 
     }
 
+    @PreRemove
+    private void preRemove() {
+        for (Task t : tasksInCategory) {
+            t.setCategory(null);
+        }
+    }
+
     public Long getId() {
         return id;
     }
