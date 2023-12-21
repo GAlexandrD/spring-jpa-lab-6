@@ -1,6 +1,7 @@
 package com.example.lab6.Task;
 
 import com.example.lab6.Category.errors.CategoryNotFoundException;
+import com.example.lab6.Task.dto.CreateTaskDto;
 import com.example.lab6.Task.errors.DateParseException;
 import com.example.lab6.Task.errors.TaskNameTaken;
 import com.example.lab6.Task.errors.TaskNotFoundException;
@@ -66,6 +67,24 @@ public class TaskController {
   public Task getOneById(
       @PathVariable(name = "taskId") Long taskId) {
     return taskService.getTaskById(taskId);
+  }
+
+  @Operation(summary = "create task", description = "create one task from given json")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Created successfully", content = {
+          @Content(mediaType = "application/json", schema = @Schema(implementation = Task.class)) }) })
+  @PostMapping
+  public Task createTask(@RequestBody CreateTaskDto task) {
+    return taskService.createTask(task);
+  }
+
+  @Operation(summary = "create many", description = "create many tasks")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Created successfully", content = {
+          @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Task.class))) }) })
+  @PostMapping("/create-many")
+  public List<Task> createManyTasks(@RequestBody List<CreateTaskDto> tasks) {
+    return taskService.createMany(tasks);
   }
 
   @Operation(summary = "delete task", description = "delete task by Id")
